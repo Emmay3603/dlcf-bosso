@@ -54,13 +54,13 @@ const AdminLogin = ({
       <div className=" flex justify-center items-center h-35 flex-col bg-[radial-gradient(circle_at_center,_#3b82f6,_#1e3a8a)]">
         <div className="flex gap-1.5">
           <img
-            src="/public/DLBC-logo.png"
+            src="/DLBC-logo.png"
             width="40px"
             height="40px"
             alt="Deeper Life Bible Church logo"
           />
           <img
-            src="/public/DLCF-logo.png"
+            src="/DLCF-logo.png"
             width="40px"
             height="40px"
             alt="Deeper Life Bible Church logo"
