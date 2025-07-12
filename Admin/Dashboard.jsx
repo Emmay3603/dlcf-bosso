@@ -105,7 +105,7 @@ const Dashboard = ({ inviteesList, setInviteesList }) => {
                 className="opacity-20"
                 width="150px"
                 height="150px"
-                src="/public/DLBC-logo.png"
+                src="/DLBC-logo.png"
                 alt="Deeper Life Bible Church"
               />
             </div>

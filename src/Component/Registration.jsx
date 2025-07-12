@@ -18,7 +18,7 @@ const Registration = ({ inviteesList, setInviteesList }) => {
           <div className="flex justify-center items-center h-40 flex-col bg-gradient-to-r from-blue-600 to-blue-800">
             <div className="flex gap-3">
               <img
-                src="/public/DLBC-logo.png"
+                src="/DLBC-logo.png"
                 width="40px"
                 height="40px"
                 alt="Deeper Life Bible Church logo"
