@@ -176,7 +176,7 @@ const Dashboard = ({
                 className="opacity-20"
                 width="200px"
                 height="200px"
-                src="/DLBC-logo.png"
+                src="/public/DLBC-logo.png"
                 alt="Deeper Life Bible Church"
               />
             </div>
