@@ -50,7 +50,7 @@ const AdminLogin = ({
     console.log({ dashboardAdminPortal });
   }
   return (
-    <div className="font-roboto rounded-lg overflow-hidden bg-white w-11/12 md:w-[700px] my-10 md:my-10 shadow-lg motion-preset-slide-right ">
+    <div className="font-roboto rounded-lg overflow-hidden bg-white w-11/12  max-w-[700px]  my-10 md:my-10 shadow-lg motion-preset-slide-right ">
       <div className=" flex justify-center items-center h-35 flex-col bg-[radial-gradient(circle_at_center,_#3b82f6,_#1e3a8a)]">
         <div className="flex gap-1.5">
           <img
@@ -118,7 +118,10 @@ const AdminLogin = ({
                 : "Please enter both username and password"}
             </p>
           )}
-          <button className="block mt-5 w-full bg-[radial-gradient(circle_at_center,_#3b82f6,_#1e3a8a)] hover:scale-105  active:scale-110 duration-200 transition-all rounded-md h-10 text-white font-medium cursor-pointer">
+          <button
+            type="submit"
+            className="block mt-5 w-full bg-[radial-gradient(circle_at_center,_#3b82f6,_#1e3a8a)] hover:scale-105  active:scale-110 duration-200 transition-all rounded-md h-10 text-white font-medium cursor-pointer"
+          >
             Login
           </button>
         </form>

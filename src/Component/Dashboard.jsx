@@ -37,7 +37,7 @@ const InviteeCard = ({ iDept, iEmail, iLevel, iName, iWhatsapp, onDelete }) => {
           <div className="bg-white flex-shrink-0 flex justify-center items-center w-10 h-10 rounded-full">
             <i className="ri-user-line text-2xl text-blue-800"></i>
           </div>
-          <h1 className="text-lg font-bold">{iName}</h1>
+          <h1 className="text-lg font-bold break-words">{iName}</h1>
         </div>
         <div
           className="bg-[#ebebeb3d] flex justify-center items-center w-8 h-8 rounded-full cursor-pointer flex-shrink-0"
@@ -46,12 +46,12 @@ const InviteeCard = ({ iDept, iEmail, iLevel, iName, iWhatsapp, onDelete }) => {
           <i className="fa-regular fa-trash-can text-sm "></i>
         </div>
       </div>
-      <div className="p-5  grid gap-3">
+      <div className="p-5  grid  gap-3 ">
         <div className={infoBoxStyle}>
           <i className={`ri-hotel-line ${iconInfoStyle}`}></i>
           <div>
             <h3 className={departmentInfoStyle}>DEPARTMENT</h3>
-            <p className="text-gray-900 text-[15px]">{iDept}</p>
+            <p className="text-gray-900 text-[15px] ">{iDept}</p>
           </div>
         </div>
         <div className={infoBoxStyle}>
@@ -119,6 +119,8 @@ const Dashboard = ({
             <h1 className="text-2xl font-bold leading-7">Admin Dashboard</h1>
           </div>
           <button
+            type="button"
+            aria-label="Logout"
             className="bg-[#ebebeb3d] text-white px-5 py-2 gap-2 rounded-md flex items-center hover:bg-white/30 active:scale-95 duration-200"
             onClick={() => {
               setDashboardAdminPortal(false);
@@ -174,7 +176,7 @@ const Dashboard = ({
                 className="opacity-20"
                 width="200px"
                 height="200px"
-                src="/public/DLBC-logo.png"
+                src="/DLBC-logo.png"
                 alt="Deeper Life Bible Church"
               />
             </div>
@@ -207,7 +209,7 @@ const Dashboard = ({
                 />
               ))
             ) : (
-              <div className="border-blue-300 bg-blue-50 border-1 flex-grow rounded-lg h-50  flex justify-center items-center flex-col gap-2">
+              <div className="border-blue-300 bg-blue-50 border-1 flex-grow rounded-lg h-50  flex justify-center items-center flex-col gap-2 ">
                 <i className="ri-group-line text-6xl opacity-40 text-blue-900"></i>
                 <h3 className="text-lg font-bold text-blue-900">
                   No invitees found

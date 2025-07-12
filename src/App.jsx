@@ -55,6 +55,7 @@ const AdminAddInvitee = ({ setShowModal, inviteesList, setInviteesList }) => {
           setShowModal={setShowModal}
           inviteesList={inviteesList}
           setInviteesList={setInviteesList}
+          mode="admin"
         />
       </div>
     </div>

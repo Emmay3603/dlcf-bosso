@@ -23,12 +23,10 @@ const Input = ({ label, setInput, error, id, value }) => {
           }}
         />
       </div>
-      {error ? (
+      {error && (
         <p className="text-red-500 mt-0.5 text-xs md:text-lg duration-200">
           {error}
         </p>
-      ) : (
-        ""
       )}
     </>
   );
@@ -39,6 +37,7 @@ const Form = ({
   setShowModal,
   inviteesList = [],
   setInviteesList = () => {},
+  mode = "resgistration", //By default
 }) => {
   const [fullNameInput, setFullNameInput] = useState("");
   const [departmentInput, setDepartmentInput] = useState("");
@@ -60,14 +59,11 @@ const Form = ({
 
     if (!allValid) {
       setCheckError(true);
-      setFormSubmitted(false);
+      if (mode === "registration") setFormSubmitted(false);
     } else {
       setCheckError(false);
-      setFormSubmitted(true);
-
-      if (setShowModal) {
-        setShowModal(false);
-      }
+      if (mode === "registration") setFormSubmitted(true);
+      if (mode === "admin") setShowModal(false);
 
       const newInvitee = {
         id: Date.now(), // i use timestamp as unique id
@@ -77,8 +73,6 @@ const Form = ({
         whatsapp: whatsappInput,
         email: emailInput === "" ? "Nill" : emailInput,
       };
-
-      setInviteesList([...inviteesList, newInvitee]);
 
       const updatedList = [...inviteesList, newInvitee];
       setInviteesList(updatedList);

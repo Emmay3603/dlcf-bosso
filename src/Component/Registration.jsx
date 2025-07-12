@@ -49,6 +49,7 @@ const Registration = ({
             setFormSubmitted={setFormSubmitted}
             inviteesList={inviteesList}
             setInviteesList={setInviteesList}
+            mode="registration"
           />
 
           <div className="flex justify-center">
@@ -66,7 +67,7 @@ const Registration = ({
         <div className="flex justify-center items-center flex-col px-8 text-center ">
           <img
             className="mb-3 mt-7 motion-scale-in-[0.25] motion-translate-x-in-[-1%] motion-translate-y-in-[2%] motion-duration-[0.38s] motion-ease-bounce"
-            src="/public/icons8-tick.svg"
+            src="/icons8-tick.svg"
             width="100px"
             height="100px"
             alt="success icon"
