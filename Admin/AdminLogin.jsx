@@ -1,16 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Input from "../src/Component/Input";
 import Loader from "../src/Component/Loader";
-
-//this is the admin login page like this so i did all these so that it will even make ur work more simple when u are connecting backend 
+import { AuthContext } from "../auth/AuthContext";
 
 const AdminLogin = () => {
   const [emailAdmin, setEmailAdmin] = useState("");
   const [passwordAdmin, setPasswordAdmin] = useState("");
   const [errorInputAdmin, setErrorInputAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const navigate = useNavigate();
+  const { login, isAuthenticated, loading } = useContext(AuthContext);
+
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (isAuthenticated && !loading) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated, loading, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,17 +28,29 @@ const AdminLogin = () => {
     }
 
     setIsLoading(true);
+    setErrorMessage("");
     
-    // triggered fake authentication with timeout so that we can show the loading state
-    await new Promise(resolve => setTimeout(resolve, 2000));
-
-    if (emailAdmin === "admin" && passwordAdmin === "admin") {
-      navigate("/dashboard");
-    } else {
+    try {
+      const result = await login(emailAdmin, passwordAdmin);
+      
+      if (result.success) {
+        navigate("/dashboard");
+      } else {
+        setErrorMessage(result.message || "Invalid credentials");
+        setErrorInputAdmin(true);
+      }
+    } catch (error) {
+      setErrorMessage("An error occurred during login");
       setErrorInputAdmin(true);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   };
+
+  // Show loading while checking auth state
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <div className="font-roboto rounded-lg overflow-hidden bg-white w-full max-w-md mx-4 my-10 shadow-lg motion-preset-slide-right">
@@ -64,17 +84,17 @@ const AdminLogin = () => {
         </h1>
         <form onSubmit={handleSubmit}>
           <Input
-            label="Username"
-            type="text"
-            placeholder="Enter admin username"
+            label="Email"
+            type="email"
+            placeholder="Enter admin email"
             id="email"
             value={emailAdmin}
             onChange={(e) => {
               setEmailAdmin(e.target.value);
               setErrorInputAdmin(false);
             }}
-            error={errorInputAdmin && !emailAdmin ? "Username is required" : ""}
-            icon="ri-user-line"
+            error={errorInputAdmin && !emailAdmin ? "Email is required" : ""}
+            icon="ri-mail-line"
           />
 
           <Input
@@ -91,17 +111,18 @@ const AdminLogin = () => {
             icon="ri-lock-line"
           />
 
-          {errorInputAdmin && emailAdmin && passwordAdmin && (
+          {(errorInputAdmin && errorMessage) && (
             <p className="text-red-600 mt-3 text-sm text-center">
-              Invalid credentials. Please try again.
+              {errorMessage}
             </p>
           )}
 
           <button
             type="submit"
             className="block mt-6 w-full bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 active:scale-95 duration-200 rounded-md h-10 text-white font-medium cursor-pointer"
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>

@@ -24,13 +24,15 @@ const Form = ({
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData({
+    ...formData,
+    [name]: value, 
+  });
+};
+
+const backendUrl = 'http://localhost:5000';
 
   const validateForm = () => {
     const newErrors = {};
@@ -45,17 +47,35 @@ const Form = ({
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validateForm()) return;
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (!validateForm()) return;
 
-    setIsSubmitting(true);
+  setIsSubmitting(true);
 
-    // triggered API call with timeout to 2 sec to just show small loading state
-    await new Promise(resolve => setTimeout(resolve, 2000));
+  try {
+    const response = await fetch(`${backendUrl}/api/candidates`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        FullName: formData.fullName,
+        email: formData.email || "Nill",
+        Dept: formData.department,
+        Level: formData.level === "others" ? formData.otherLevel : formData.level,
+        whatsapp: formData.whatsapp,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Failed to create candidate');
+    }
 
     const newInvitee = {
-      id: Date.now(),
+      id: data.data.id,
       name: formData.fullName,
       department: formData.department,
       level: formData.level === "others" ? formData.otherLevel : formData.level,
@@ -79,8 +99,15 @@ const Form = ({
       email: "",
       otherLevel: "",
     });
-    setIsSubmitting(false);
-  };
+  } catch (error) {
+  console.error('Error submitting form:', error);
+  setErrors({
+    submit: error.message || 'Failed to submit form. Please try again.'
+  });
+} finally {
+  setIsSubmitting(false);
+}
+};
 
   return (
     <form className="px-5" onSubmit={handleSubmit}>
@@ -170,6 +197,10 @@ const Form = ({
       >
         {isSubmitting ? "Processing..." : "Submit"}
       </button>
+
+      {errors.submit && (
+  <p className="text-red-500 text-xs mt-1 text-center">{errors.submit}</p>
+)}
     </form>
   );
 };

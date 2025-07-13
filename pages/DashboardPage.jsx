@@ -1,19 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import Dashboard from "../Admin/Dashboard";
 import AddNew from "../Admin/AddNew";
 import ProtectedRoute from "../auth/ProtectedRoutes";
-
-//this is the dashbaord page as u can see i imported the dashboard component and then i also imported the admin add invitee component which is the modal that pops up when u click on the add invitee button and then i also imported the protected route which is to protect the route so that only authenticated users can access it and then i passed in the props inviteesList and setInviteesList to the dashboard component and then i also used useNavigate from react-router-dom to navigate to other pages if needed
+import { AuthContext } from "../auth/AuthContext";
+import Loader from "../src/Component/Loader";
 
 const DashboardPage = ({ inviteesList, setInviteesList }) => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
+  const { isAuthenticated, loading, logout } = useContext(AuthContext);
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/admin");
+  };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
-    <ProtectedRoute isAuthenticated={true}>
+    <ProtectedRoute isAuthenticated={isAuthenticated}>
       <div className="flex justify-center items-start min-h-screen bg-blue-50 py-10">
-        <Dashboard inviteesList={inviteesList} setInviteesList={setInviteesList} />
+        <Dashboard 
+          inviteesList={inviteesList} 
+          setInviteesList={setInviteesList} 
+          onLogout={handleLogout}
+        />
         
         <button
           className="fixed bottom-8 right-8 bg-gradient-to-r from-blue-600 to-blue-800 text-white flex justify-center items-center w-14 h-14 rounded-full shadow-lg hover:scale-110 transition-transform duration-200 z-50"

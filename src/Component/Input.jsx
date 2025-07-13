@@ -1,6 +1,6 @@
 import React from "react";
 
-const Input = ({ label, type = "text", id, value, onChange, placeholder, error, icon }) => {
+const Input = ({ label, type = "text", id, name, value, onChange, placeholder, error, icon }) => {
   const inputStyle = `block w-full pl-9 pr-3 bg-blue-50 border-1 border-blue-300 rounded-md h-10 focus:outline-0 focus:border-blue-500 focus:border-2 duration-200 ${
     error ? "border-red-500 bg-red-50" : ""
   }`;
@@ -12,7 +12,7 @@ const Input = ({ label, type = "text", id, value, onChange, placeholder, error, 
         {label}
       </label>
       {icon && (
-        <div className="absolute top-9 left-3 text-blue-800">
+        <div className="absolute top-8 md:top-9 left-3 text-blue-800 mb-8">
           <i className={icon}></i>
         </div>
       )}
@@ -20,9 +20,10 @@ const Input = ({ label, type = "text", id, value, onChange, placeholder, error, 
         className={inputStyle}
         type={type}
         id={id}
+        name={name} 
         placeholder={placeholder}
         value={value}
-        onChange={onChange}
+        onChange={onChange} 
       />
       {error && (
         <p className="text-red-500 mt-1 text-xs">{error}</p>
