@@ -1,4 +1,3 @@
-
 //instead of having eveything together here , what i did is that i seaprate the inputs and then use it here as a component to make things fasterinstead of bunch codes
 // and more readable, so i created a new file called Input.jsx and then i use it here in the Form.jsx file
 // this is the Form.jsx file, it is responsible for the form that is used in the data collection
@@ -24,15 +23,15 @@ const Form = ({
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData({
-    ...formData,
-    [name]: value, 
-  });
-};
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
-const backendUrl = 'http://localhost:5000';
+  const backendUrl = "https://dlcf-bosso-mqz7.vercel.app";
 
   const validateForm = () => {
     const newErrors = {};
@@ -47,67 +46,69 @@ const backendUrl = 'http://localhost:5000';
     return Object.keys(newErrors).length === 0;
   };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  if (!validateForm()) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
 
-  setIsSubmitting(true);
+    setIsSubmitting(true);
 
-  try {
-    const response = await fetch(`${backendUrl}/api/candidates`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        FullName: formData.fullName,
-        email: formData.email || "Nill",
-        Dept: formData.department,
-        Level: formData.level === "others" ? formData.otherLevel : formData.level,
+    try {
+      const response = await fetch(`${backendUrl}/api/candidates`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          FullName: formData.fullName,
+          email: formData.email || "Nill",
+          Dept: formData.department,
+          Level:
+            formData.level === "others" ? formData.otherLevel : formData.level,
+          whatsapp: formData.whatsapp,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Failed to create candidate");
+      }
+
+      const newInvitee = {
+        id: data.data.id,
+        name: formData.fullName,
+        department: formData.department,
+        level:
+          formData.level === "others" ? formData.otherLevel : formData.level,
         whatsapp: formData.whatsapp,
-      }),
-    });
+        email: formData.email || "Nill",
+      };
 
-    const data = await response.json();
+      setInviteesList([...inviteesList, newInvitee]);
 
-    if (!response.ok) {
-      throw new Error(data.message || 'Failed to create candidate');
+      if (mode === "registration") {
+        setFormSubmitted(true);
+      } else if (mode === "admin") {
+        setShowModal(false);
+      }
+
+      setFormData({
+        fullName: "",
+        department: "",
+        whatsapp: "",
+        level: "",
+        email: "",
+        otherLevel: "",
+      });
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setErrors({
+        submit: error.message || "Failed to submit form. Please try again.",
+      });
+    } finally {
+      setIsSubmitting(false);
     }
-
-    const newInvitee = {
-      id: data.data.id,
-      name: formData.fullName,
-      department: formData.department,
-      level: formData.level === "others" ? formData.otherLevel : formData.level,
-      whatsapp: formData.whatsapp,
-      email: formData.email || "Nill",
-    };
-
-    setInviteesList([...inviteesList, newInvitee]);
-
-    if (mode === "registration") {
-      setFormSubmitted(true);
-    } else if (mode === "admin") {
-      setShowModal(false);
-    }
-
-    setFormData({
-      fullName: "",
-      department: "",
-      whatsapp: "",
-      level: "",
-      email: "",
-      otherLevel: "",
-    });
-  } catch (error) {
-  console.error('Error submitting form:', error);
-  setErrors({
-    submit: error.message || 'Failed to submit form. Please try again.'
-  });
-} finally {
-  setIsSubmitting(false);
-}
-};
+  };
 
   return (
     <form className="px-5" onSubmit={handleSubmit}>
@@ -132,7 +133,10 @@ const handleSubmit = async (e) => {
       />
 
       <div className="mb-4">
-        <label className="text-blue-800 font-medium block mt-3 text-[15px] md:text-lg" htmlFor="level">
+        <label
+          className="text-blue-800 font-medium block mt-3 text-[15px] md:text-lg"
+          htmlFor="level"
+        >
           Level *
         </label>
         <select
@@ -199,8 +203,8 @@ const handleSubmit = async (e) => {
       </button>
 
       {errors.submit && (
-  <p className="text-red-500 text-xs mt-1 text-center">{errors.submit}</p>
-)}
+        <p className="text-red-500 text-xs mt-1 text-center">{errors.submit}</p>
+      )}
     </form>
   );
 };
