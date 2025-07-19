@@ -31,7 +31,7 @@ const Form = ({
     });
   };
 
-  const backendUrl = "https://dlcf-bosso-mqz7.vercel.app";
+  const backendUrl = "https://envagelism-backend.vercel.app";
 
   const validateForm = () => {
     const newErrors = {};
