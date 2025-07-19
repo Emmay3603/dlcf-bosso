@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const backendUrl = "https://dlcf-bosso-mqz7.vercel.app";
+  const backendUrl = "https://envagelism-backend.vercel.app";
 
   // Check if user is logged in on initial load
   useEffect(() => {
