@@ -15,7 +15,7 @@ const Dashboard = ({ inviteesList, setInviteesList, onLogout }) => {
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const backendUrl = "https://dlcf-bosso-mqz7.vercel.app";
+  const backendUrl = "https://envagelism-backend.vercel.app";
 
   // Function to generate random avatar URL using DiceBear API
   const generateRandomAvatar = (seed) => {
